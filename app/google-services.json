@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "792463391753",
+    "project_id": "pgfinder09",
+    "storage_bucket": "pgfinder09.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:792463391753:android:5fba4bcab93445a0020cd8",
+        "android_client_info": {
+          "package_name": "com.example.pgfinder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAotVJ8x59ZcBZxii_imjH-Oncih4pkmBQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
