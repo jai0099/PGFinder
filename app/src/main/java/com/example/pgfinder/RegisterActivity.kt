@@ -27,11 +27,11 @@ class RegisterActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         // Find views
-        emailInput = findViewById(R.id.etName)
-        passwordInput = findViewById(R.id.etEmail)
-        confirmPasswordInput = findViewById(R.id.etPassword)
-        registerButton = findViewById(R.id.etConfirmPassword)
-        loginText = findViewById(R.id.goTOloginText)
+        emailInput = findViewById(R.id.emailEditText)
+        passwordInput = findViewById(R.id.passwordEditText)
+        confirmPasswordInput = findViewById(R.id.confirmPasswordEditText)
+        loginText = findViewById(R.id.goToLoginText)
+        registerButton = findViewById(R.id.registerButton)
 
         // Register button click
         registerButton.setOnClickListener {

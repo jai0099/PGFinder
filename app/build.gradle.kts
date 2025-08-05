@@ -5,7 +5,6 @@ plugins {
     id("kotlin-kapt")
 }
 
-
 android {
     namespace = "com.example.pgfinder"
     compileSdk = 34
@@ -34,11 +33,15 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
+    kotlin {
+        jvmToolchain(17)
+    }
+
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -83,6 +86,8 @@ dependencies {
     implementation ("com.google.firebase:firebase-auth-ktx")             // For login
     implementation ("com.google.firebase:firebase-firestore-ktx")        // For DB
     implementation ("com.google.firebase:firebase-database-ktx")           // For photos
+
+    implementation("com.google.firebase:firebase-database-ktx")
 
 
     // TODO: Add the dependencies for Firebase products you want to use

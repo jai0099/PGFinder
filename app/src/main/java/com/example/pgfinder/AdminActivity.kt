@@ -4,8 +4,7 @@ import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pgfinder.model.PGModel
-import com.google.firebase.firestore.FirebaseFirestore
-
+import com.google.firebase.database.FirebaseDatabase
 
 class AdminActivity : AppCompatActivity() {
 
@@ -15,7 +14,8 @@ class AdminActivity : AppCompatActivity() {
     private lateinit var contact: EditText
     private lateinit var email: EditText
     private lateinit var submitBtn: Button
-    private lateinit var db: FirebaseFirestore
+
+    private val dbRef = FirebaseDatabase.getInstance().getReference("PGs")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,14 +28,14 @@ class AdminActivity : AppCompatActivity() {
         email = findViewById(R.id.etEmail)
         submitBtn = findViewById(R.id.btnSubmit)
 
-        db = FirebaseFirestore.getInstance()
-
         submitBtn.setOnClickListener {
             savePGData()
         }
     }
 
     private fun savePGData() {
+        val id = dbRef.push().key ?: return
+
         val pg = PGModel(
             pgName = pgName.text.toString(),
             area = area.text.toString(),
@@ -44,14 +44,13 @@ class AdminActivity : AppCompatActivity() {
             email = email.text.toString()
         )
 
-        db.collection("pgs")
-            .add(pg)
+        dbRef.child(id).setValue(pg)
             .addOnSuccessListener {
-                Toast.makeText(this, "PG Added Successfully", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "PG Added!", Toast.LENGTH_SHORT).show()
                 clearFields()
             }
             .addOnFailureListener {
-                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Failed to add PG", Toast.LENGTH_SHORT).show()
             }
     }
 
