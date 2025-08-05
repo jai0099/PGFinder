@@ -9,6 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -52,6 +53,16 @@ class RegisterActivity : AppCompatActivity() {
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
+                        val userId = auth.currentUser?.uid
+                        val role = "user" // Default role for all users
+
+                        // Save user role to Realtime Database
+                        val databaseRef = FirebaseDatabase.getInstance().reference
+                        userId?.let {
+                            val userMap = mapOf("email" to email, "role" to role)
+                            databaseRef.child("users").child(it).setValue(userMap)
+                        }
+
                         Toast.makeText(this, "Registered successfully", Toast.LENGTH_SHORT).show()
                         startActivity(Intent(this, LoginActivity::class.java))
                         finish()

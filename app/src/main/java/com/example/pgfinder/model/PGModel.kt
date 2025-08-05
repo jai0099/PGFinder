@@ -6,5 +6,5 @@ data class PGModel(
     val rent: String = "",
     val contact: String = "",
     val email: String = "",
-    val imageUrl: String = ""
+    //val imageUrl: String = ""
 )

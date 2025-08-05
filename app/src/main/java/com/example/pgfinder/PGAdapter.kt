@@ -20,7 +20,7 @@ class PGAdapter(
 ) : RecyclerView.Adapter<PGAdapter.PGViewHolder>() {
 
     inner class PGViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val pgImage: ImageView = itemView.findViewById(R.id.pgImageView)
+        //val pgImage: ImageView = itemView.findViewById(R.id.pgImageView)
         val pgName: TextView = itemView.findViewById(R.id.pgNameTextView)
         val pgArea: TextView = itemView.findViewById(R.id.pgAreaTextView)
         val pgRent: TextView = itemView.findViewById(R.id.pgRentTextView)
@@ -40,7 +40,7 @@ class PGAdapter(
         holder.pgArea.text = pg.area
         holder.pgRent.text = "₹${pg.rent}"
 
-        Glide.with(context).load(pg.imageUrl).into(holder.pgImage)
+        //Glide.with(context).load(pg.imageUrl).into(holder.pgImage)
 
         holder.callButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_DIAL)

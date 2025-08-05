@@ -9,6 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 class LoginActivity : AppCompatActivity() {
 
@@ -34,8 +35,8 @@ class LoginActivity : AppCompatActivity() {
 
         // Login button click
         loginButton.setOnClickListener {
-            val email = emailInput.text.toString()
-            val password = passwordInput.text.toString()
+            val email = emailInput.text.toString().trim()
+            val password = passwordInput.text.toString().trim()
 
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
@@ -43,9 +44,26 @@ class LoginActivity : AppCompatActivity() {
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
-                            startActivity(Intent(this, HomeActivity::class.java))
-                            finish()
+                            val userId = auth.currentUser?.uid
+                            val databaseRef = FirebaseDatabase.getInstance().reference
+
+                            userId?.let {
+                                databaseRef.child("users").child(it).get().addOnSuccessListener { snapshot ->
+                                    val role = snapshot.child("role").value.toString()
+
+                                    Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
+
+                                    if (role == "admin") {
+                                        startActivity(Intent(this, AdminActivity::class.java))
+                                    } else {
+                                        startActivity(Intent(this, HomeActivity::class.java))
+                                    }
+
+                                    finish()
+                                }.addOnFailureListener {
+                                    Toast.makeText(this, "Failed to fetch role", Toast.LENGTH_SHORT).show()
+                                }
+                            }
                         } else {
                             Toast.makeText(this, "Login failed: ${task.exception?.message}", Toast.LENGTH_LONG).show()
                         }
