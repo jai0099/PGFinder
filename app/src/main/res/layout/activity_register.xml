@@ -1,52 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/light_bg"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="24dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:padding="24dp"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="@color/colorCard">
 
-        <EditText
-            android:id="@+id/emailEditText"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email"
-            tools:ignore="TouchTargetSizeCheck" />
+            android:padding="16dp">
 
-        <EditText
-            android:id="@+id/passwordEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="password"
-            tools:ignore="TouchTargetSizeCheck" />
+            <EditText
+                android:id="@+id/emailEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:padding="12dp"
+                android:backgroundTint="@color/colorPrimaryVariant"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/textPrimary"
+                android:layout_marginBottom="12dp" />
 
-        <EditText
-            android:id="@+id/confirmPasswordEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Confirm Password"
-            android:inputType="textPassword"
-            tools:ignore="TouchTargetSizeCheck" />
+            <EditText
+                android:id="@+id/passwordEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:padding="12dp"
+                android:backgroundTint="@color/colorPrimaryVariant"
+                android:inputType="textPassword"
+                android:textColor="@color/textPrimary"
+                android:layout_marginBottom="12dp" />
 
-        <Button
-            android:id="@+id/registerButton"
-            android:text="Register"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            <EditText
+                android:id="@+id/confirmPasswordEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Confirm Password"
+                android:padding="12dp"
+                android:backgroundTint="@color/colorPrimaryVariant"
+                android:inputType="textPassword"
+                android:textColor="@color/textPrimary"
+                android:layout_marginBottom="16dp" />
 
-        <TextView
-            android:id="@+id/goToLoginText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:text="Already have an account? Login"
-            android:textColor="@android:color/holo_blue_dark"
-            android:textStyle="bold"
-            tools:ignore="TouchTargetSizeCheck" />
-    </LinearLayout>
-</ScrollView>
+            <Button
+                android:id="@+id/registerButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_primary"
+                android:textColor="@android:color/white"
+                android:text="Register"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/goToLoginText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Already have an account? Login"
+                android:textColor="@color/colorPrimaryVariant"
+                android:gravity="center"
+                android:layout_marginTop="12dp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>
