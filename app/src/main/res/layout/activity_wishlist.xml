@@ -9,7 +9,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="#001F54"
+        android:background="@color/top_nav"
         android:title="Wishlist"
         android:titleTextColor="@android:color/white" />
 

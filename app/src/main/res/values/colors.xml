@@ -2,7 +2,10 @@
     <!-- Primary Colors -->
     <color name="colorPrimary">#003049</color> <!-- Navy Blue -->
     <color name="colorPrimaryVariant">#669BBC</color> <!-- Light Blue -->
-    <color name="colorAccent">#669BBC</color>
+    <color name="nav_bar">#2f4b5d</color>
+    <color name="wish_btn">#a3c2d7</color>
+    <color name="btn1">#5886a3</color>
+    <color name="top_nav">#4a728b</color>
 
     <color name="primary">#3F51B5</color> <!-- Blue -->
     <color name="primaryDark">#303F9F</color> <!-- Darker Blue -->

@@ -1,0 +1,32 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F9F9F9"
+    android:padding="12dp">
+
+    <!-- Modern Styled SearchView -->
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_searchview"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search PGs..."
+        android:padding="4dp"
+        android:focusable="false"
+        android:clickable="true"
+        android:focusableInTouchMode="false"
+        app:iconifiedByDefault="false" />
+
+    <!-- RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/searchRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        android:overScrollMode="never"
+        android:padding="4dp" />
+
+</LinearLayout>

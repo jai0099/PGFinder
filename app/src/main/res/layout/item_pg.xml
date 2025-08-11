@@ -40,7 +40,7 @@
                 android:layout_centerVertical="true"
                 android:src="@drawable/ic_bookmark_border"
                 android:contentDescription="Bookmark Icon"
-                android:tint="#669BBC"
+                android:tint="@color/wish_btn"
                 tools:ignore="DuplicateIds,UseAppTint" />
         </RelativeLayout>
 
@@ -72,7 +72,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Email"
-                android:backgroundTint="#003049"
+                android:backgroundTint="@color/btn1"
                 android:textColor="@android:color/white" />
 
             <Button
@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:text="Call"
                 android:layout_marginStart="8dp"
-                android:backgroundTint="#669BBC"
+                android:backgroundTint="@color/btn1"
                 android:textColor="@android:color/white" />
         </LinearLayout>
     </LinearLayout>
