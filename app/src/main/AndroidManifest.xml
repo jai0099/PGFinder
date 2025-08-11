@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
+        <activity android:name=".WishlistActivity" />
         <activity android:name=".AdminActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".RegisterActivity" />

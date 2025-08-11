@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_bg"
     android:orientation="vertical"
-    tools:ignore="ExtraText">
+    android:background="@color/light_bg">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="#001F54"
-        android:title="Available PGs"
-        android:titleTextColor="@android:color/white" >
-    </androidx.appcompat.widget.Toolbar>
+        android:title="Wishlist"
+        android:titleTextColor="@android:color/white" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pgRecyclerView"
