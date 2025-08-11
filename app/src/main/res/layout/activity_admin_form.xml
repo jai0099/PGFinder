@@ -1,106 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/light_bg"
-    android:fillViewport="true">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <!-- example inputs -->
+    <EditText
+        android:id="@+id/etName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:hint="PG Name" />
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="6dp"
-            app:cardBackgroundColor="@color/colorCard">
+    <EditText
+        android:id="@+id/etLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Location" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+    <EditText
+        android:id="@+id/etPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Price" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Add PG"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/textPrimary"
-                    android:layout_marginBottom="8dp" />
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email" />
 
-                <EditText
-                    android:id="@+id/etPgName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="PG Name"
-                    android:textColor="@color/textPrimary"
-                    android:backgroundTint="@color/colorPrimaryVariant"
-                    android:padding="12dp"
-                    android:layout_marginTop="8dp" />
+    <EditText
+        android:id="@+id/etCall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Contact Number" />
 
-                <EditText
-                    android:id="@+id/etArea"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Area"
-                    android:textColor="@color/textPrimary"
-                    android:backgroundTint="@color/colorPrimaryVariant"
-                    android:padding="12dp"
-                    android:layout_marginTop="8dp" />
+    <Button
+        android:id="@+id/btnAddUpdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add PG" />
 
-                <EditText
-                    android:id="@+id/etRent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Rent"
-                    android:inputType="number"
-                    android:textColor="@color/textPrimary"
-                    android:backgroundTint="@color/colorPrimaryVariant"
-                    android:padding="12dp"
-                    android:layout_marginTop="8dp" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvPgList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-                <EditText
-                    android:id="@+id/etContact"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Contact No"
-                    android:inputType="phone"
-                    android:textColor="@color/textPrimary"
-                    android:backgroundTint="@color/colorPrimaryVariant"
-                    android:padding="12dp"
-                    android:layout_marginTop="8dp" />
-
-                <EditText
-                    android:id="@+id/etEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Email"
-                    android:inputType="textEmailAddress"
-                    android:textColor="@color/textPrimary"
-                    android:backgroundTint="@color/colorPrimaryVariant"
-                    android:padding="12dp"
-                    android:layout_marginTop="8dp" />
-
-                <Button
-                    android:id="@+id/btnSubmit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Add PG"
-                    android:textColor="@android:color/white"
-                    android:background="@drawable/btn_primary"
-                    android:layout_marginTop="12dp" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>
