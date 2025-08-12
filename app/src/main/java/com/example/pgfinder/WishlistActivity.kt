@@ -82,7 +82,7 @@ class WishlistActivity : AppCompatActivity() {
                     if (pgSnap.key in pgIds) {
                         val pg = pgSnap.getValue(PGModel::class.java)
                         if (pg != null) {
-                            pg.pgId = pgSnap.key ?: ""
+                            pg.id = pgSnap.key ?: ""
                             pgList.add(pg)
                         }
                     }

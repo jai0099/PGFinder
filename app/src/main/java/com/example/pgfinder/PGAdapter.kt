@@ -7,11 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pgfinder.R
 import com.example.pgfinder.model.PGModel
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 class PGAdapter(
@@ -24,7 +22,6 @@ class PGAdapter(
     private val bookmarkedPgIds = mutableSetOf<String>()
 
     init {
-        // Load user's wishlist PG IDs
         wishlistRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 bookmarkedPgIds.clear()
@@ -33,6 +30,7 @@ class PGAdapter(
                 }
                 notifyDataSetChanged()
             }
+
             override fun onCancelled(error: DatabaseError) {}
         })
     }
@@ -54,13 +52,13 @@ class PGAdapter(
     override fun onBindViewHolder(holder: PGViewHolder, position: Int) {
         val pg = pgList[position]
 
-        holder.pgName.text = pg.pgName
-        holder.pgArea.text = pg.area
-        holder.pgRent.text = "₹${pg.rent}"
+        holder.pgName.text = pg.name
+        holder.pgArea.text = pg.location
+        holder.pgRent.text = "₹${pg.price}"
 
         holder.callButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_DIAL)
-            intent.data = Uri.parse("tel:${pg.contact}")
+            intent.data = Uri.parse("tel:${pg.call}")
             context.startActivity(intent)
         }
 
@@ -70,23 +68,22 @@ class PGAdapter(
             context.startActivity(intent)
         }
 
-        // Bookmark icon based on wishlist status
-        if (bookmarkedPgIds.contains(pg.pgId)) {
+        if (bookmarkedPgIds.contains(pg.id)) {
             holder.bookmarkIcon.setImageResource(R.drawable.ic_bookmark_filled)
         } else {
             holder.bookmarkIcon.setImageResource(R.drawable.ic_bookmark_border)
         }
 
         holder.bookmarkIcon.setOnClickListener {
-            if (bookmarkedPgIds.contains(pg.pgId)) {
-                wishlistRef.child(pg.pgId).removeValue()
+            if (bookmarkedPgIds.contains(pg.id)) {
+                wishlistRef.child(pg.id).removeValue()
                     .addOnSuccessListener {
-                        Toast.makeText(context, "${pg.pgName} removed from wishlist", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "${pg.name} removed from wishlist", Toast.LENGTH_SHORT).show()
                     }
             } else {
-                wishlistRef.child(pg.pgId).setValue(true)
+                wishlistRef.child(pg.id).setValue(true)
                     .addOnSuccessListener {
-                        Toast.makeText(context, "${pg.pgName} added to wishlist", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "${pg.name} added to wishlist", Toast.LENGTH_SHORT).show()
                     }
             }
         }
@@ -94,4 +91,3 @@ class PGAdapter(
 
     override fun getItemCount(): Int = pgList.size
 }
-

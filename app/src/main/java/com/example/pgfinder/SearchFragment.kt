@@ -52,7 +52,7 @@ class SearchFragment : Fragment() {
                 for (pgSnap in snapshot.children) {
                     val pg = pgSnap.getValue(PGModel::class.java)
                     if (pg != null) {
-                        pg.pgId = pgSnap.key ?: ""
+                        pg.id = pgSnap.key ?: ""
                         allList.add(pg)
                     }
                 }
@@ -84,7 +84,7 @@ class SearchFragment : Fragment() {
             shownList.addAll(allList)
         } else {
             for (pg in allList) {
-                val combined = "${pg.pgName} ${pg.area} ${pg.rent}".lowercase()
+                val combined = "${pg.name} ${pg.location} ${pg.price}".lowercase()
                 if (combined.contains(query)) {
                     shownList.add(pg)
                 }

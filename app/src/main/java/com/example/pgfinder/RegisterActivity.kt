@@ -27,14 +27,12 @@ class RegisterActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
-        // Find views
         emailInput = findViewById(R.id.emailEditText)
         passwordInput = findViewById(R.id.passwordEditText)
         confirmPasswordInput = findViewById(R.id.confirmPasswordEditText)
         loginText = findViewById(R.id.goToLoginText)
         registerButton = findViewById(R.id.registerButton)
 
-        // Register button click
         registerButton.setOnClickListener {
             val email = emailInput.text.toString().trim()
             val password = passwordInput.text.toString().trim()
@@ -53,26 +51,32 @@ class RegisterActivity : AppCompatActivity() {
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        val userId = auth.currentUser?.uid
-                        val role = "user" // Default role for all users
+                        val userId = auth.currentUser?.uid ?: return@addOnCompleteListener
+                        val role = "user"
 
-                        // Save user role to Realtime Database
-                        val databaseRef = FirebaseDatabase.getInstance().reference
-                        userId?.let {
-                            val userMap = mapOf("email" to email, "role" to role)
-                            databaseRef.child("users").child(it).setValue(userMap)
-                        }
+                        val userMap = mapOf(
+                            "email" to email,
+                            "role" to role
+                        )
 
-                        Toast.makeText(this, "Registered successfully", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this, LoginActivity::class.java))
-                        finish()
+                        FirebaseDatabase.getInstance().reference
+                            .child("Users") // Must match DB exact name
+                            .child(userId)
+                            .setValue(userMap)
+                            .addOnSuccessListener {
+                                Toast.makeText(this, "Registered successfully", Toast.LENGTH_SHORT).show()
+                                startActivity(Intent(this, LoginActivity::class.java))
+                                finish()
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(this, "Failed to save user: ${it.message}", Toast.LENGTH_SHORT).show()
+                            }
                     } else {
                         Toast.makeText(this, "Registration failed: ${task.exception?.message}", Toast.LENGTH_LONG).show()
                     }
                 }
         }
 
-        // Text to go back to login
         loginText.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
             finish()

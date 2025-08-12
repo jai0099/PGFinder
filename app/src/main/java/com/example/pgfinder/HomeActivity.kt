@@ -50,7 +50,7 @@ class HomeActivity : AppCompatActivity() {
                 for (pgSnap in snapshot.children) {
                     val pg = pgSnap.getValue(PGModel::class.java)
                     if (pg != null) {
-                        pg.pgId = pgSnap.key ?: ""
+                        pg.id = pgSnap.key ?: ""
                         pgList.add(pg)
                     }
                 }

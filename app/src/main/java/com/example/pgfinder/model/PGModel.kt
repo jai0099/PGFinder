@@ -1,11 +1,10 @@
 package com.example.pgfinder.model
 
 data class PGModel(
-    var pgId: String = "",
-    val pgName: String = "",
-    val area: String = "",
-    val rent: String = "",
-    val contact: String = "",
-    val email: String = "",
-    //val imageUrl: String = ""
+    var id: String = "",
+    val name: String = "",
+    val location: String = "",
+    val price: String = "",
+    val call: String = "",
+    val email: String = ""
 )
