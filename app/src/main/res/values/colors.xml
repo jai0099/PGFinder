@@ -12,6 +12,8 @@
     <color name="accent">#FF4081</color> <!-- Pink -->
     <color name="text_primary">#FFFFFF</color> <!-- White text -->
 
+    <color name="teal_700">#018786</color>
+
     <!-- Background -->
     <color name="colorBackground">#FDF0D5</color> <!-- Soft Off-White -->
     <color name="light_bg">#fef9ee</color>
