@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "792463391753",
+    "firebase_url": "https://pgfinder09-default-rtdb.firebaseio.com",
     "project_id": "pgfinder09",
     "storage_bucket": "pgfinder09.firebasestorage.app"
   },

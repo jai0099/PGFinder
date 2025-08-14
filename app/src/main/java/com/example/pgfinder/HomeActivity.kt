@@ -1,78 +1,87 @@
 package com.example.pgfinder
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.pgfinder.adapter.PGAdapter
+import com.example.pgfinder.databinding.ActivityHomeBinding
 import com.example.pgfinder.model.PGModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 class HomeActivity : AppCompatActivity() {
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: PGAdapter
-    private lateinit var pgList: ArrayList<PGModel>
-    private lateinit var dbRef: DatabaseReference
-    private lateinit var auth: FirebaseAuth
+    private lateinit var binding: ActivityHomeBinding
+    private lateinit var pgAdapter: PGAdapter
+    private val pgList = mutableListOf<PGModel>()
+    private lateinit var database: DatabaseReference
+    private lateinit var userId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+        binding = ActivityHomeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
+        database = FirebaseDatabase.getInstance().getReference("PGs")
+        userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
-        auth = FirebaseAuth.getInstance()
-        val currentUser = auth.currentUser ?: return
+        binding.pgRecyclerView.layoutManager = LinearLayoutManager(this)
+        pgAdapter = PGAdapter(this, pgList, userId)
+        binding.pgRecyclerView.adapter = pgAdapter
 
-        recyclerView = findViewById(R.id.pgRecyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-
-        pgList = ArrayList()
-        adapter = PGAdapter(this, pgList, currentUser.uid)
-        recyclerView.adapter = adapter
-
-        dbRef = FirebaseDatabase.getInstance().getReference("PGs")
-        fetchData()
+        fetchPGs()
     }
 
-    private fun fetchData() {
-        dbRef.addValueEventListener(object : ValueEventListener {
+    private fun fetchPGs(cityFilter: String? = null) {
+        database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 pgList.clear()
                 for (pgSnap in snapshot.children) {
                     val pg = pgSnap.getValue(PGModel::class.java)
                     if (pg != null) {
-                        pg.id = pgSnap.key ?: ""
-                        pgList.add(pg)
+                        if (cityFilter == null || pg.location.equals(cityFilter, ignoreCase = true)) {
+                            pgList.add(pg)
+                        }
                     }
                 }
-                adapter.notifyDataSetChanged()
+                pgAdapter.notifyDataSetChanged()
             }
 
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@HomeActivity, "Failed: ${error.message}", Toast.LENGTH_SHORT).show()
-            }
+            override fun onCancelled(error: DatabaseError) {}
         })
     }
 
-    // Toolbar me wishlist icon add karne ke liye
+    private fun showFilterDialog() {
+        val cities = arrayOf("All", "Ahmedabad", "Surat", "Rajkot")
+        AlertDialog.Builder(this)
+            .setTitle("Select City")
+            .setItems(cities) { _, which ->
+                if (cities[which] == "All") {
+                    fetchPGs()
+                } else {
+                    fetchPGs(cities[which])
+                }
+            }
+            .show()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
+        menuInflater.inflate(R.menu.top_nav_menu, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_wishlist -> {
+            R.id.menu_wishlist -> {
                 startActivity(Intent(this, WishlistActivity::class.java))
+                true
+            }
+            R.id.menu_filter -> {
+                showFilterDialog()
                 true
             }
             else -> super.onOptionsItemSelected(item)

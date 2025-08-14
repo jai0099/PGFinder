@@ -6,7 +6,10 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pgfinder.R
 import com.example.pgfinder.model.PGModel
@@ -18,21 +21,33 @@ class PGAdapter(
     private val userId: String
 ) : RecyclerView.Adapter<PGAdapter.PGViewHolder>() {
 
-    private val wishlistRef = FirebaseDatabase.getInstance().getReference("wishlist").child(userId)
+    private val wishlistRef: DatabaseReference? =
+        if (userId.isNotEmpty())
+            FirebaseDatabase.getInstance()
+                .getReference("users")
+                .child(userId)
+                .child("wishlist")
+        else null
+
     private val bookmarkedPgIds = mutableSetOf<String>()
+    private var wishlistListener: ValueEventListener? = null
 
     init {
-        wishlistRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                bookmarkedPgIds.clear()
-                for (child in snapshot.children) {
-                    bookmarkedPgIds.add(child.key.toString())
+        // Listen to user's wishlist changes
+        if (wishlistRef != null) {
+            wishlistListener = object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    bookmarkedPgIds.clear()
+                    for (child in snapshot.children) {
+                        child.key?.let { bookmarkedPgIds.add(it) }
+                    }
+                    notifyDataSetChanged()
                 }
-                notifyDataSetChanged()
-            }
 
-            override fun onCancelled(error: DatabaseError) {}
-        })
+                override fun onCancelled(error: DatabaseError) {}
+            }
+            wishlistRef.addValueEventListener(wishlistListener!!)
+        }
     }
 
     inner class PGViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -45,49 +60,78 @@ class PGAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PGViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_pg, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_pg, parent, false)
+
+        // Ensure bookmark is clickable even inside CardView
+        view.findViewById<ImageView>(R.id.bookmarkImageView)?.apply {
+            isClickable = true
+            isFocusable = true
+        }
+
         return PGViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: PGViewHolder, position: Int) {
         val pg = pgList[position]
 
+        // Set data
         holder.pgName.text = pg.name
         holder.pgArea.text = pg.location
         holder.pgRent.text = "₹${pg.price}"
 
+        // Call
         holder.callButton.setOnClickListener {
-            val intent = Intent(Intent.ACTION_DIAL)
-            intent.data = Uri.parse("tel:${pg.call}")
+            val intent = Intent(Intent.ACTION_DIAL).apply {
+                data = Uri.parse("tel:${pg.call}")
+            }
             context.startActivity(intent)
         }
 
+        // Email
         holder.emailButton.setOnClickListener {
-            val intent = Intent(Intent.ACTION_SENDTO)
-            intent.data = Uri.parse("mailto:${pg.email}")
+            val intent = Intent(Intent.ACTION_SENDTO).apply {
+                data = Uri.parse("mailto:${pg.email}")
+            }
             context.startActivity(intent)
         }
 
-        if (bookmarkedPgIds.contains(pg.id)) {
-            holder.bookmarkIcon.setImageResource(R.drawable.ic_bookmark_filled)
-        } else {
-            holder.bookmarkIcon.setImageResource(R.drawable.ic_bookmark_border)
-        }
+        // Bookmark State
+        val isBookmarked = bookmarkedPgIds.contains(pg.id)
+        holder.bookmarkIcon.setImageResource(
+            if (isBookmarked) R.drawable.ic_bookmark_filled else R.drawable.ic_bookmark_border
+        )
 
+        // Bookmark click handling
         holder.bookmarkIcon.setOnClickListener {
-            if (bookmarkedPgIds.contains(pg.id)) {
-                wishlistRef.child(pg.id).removeValue()
-                    .addOnSuccessListener {
-                        Toast.makeText(context, "${pg.name} removed from wishlist", Toast.LENGTH_SHORT).show()
-                    }
+            if (wishlistRef == null || pg.id.isEmpty()) {
+                Toast.makeText(context, "Login required for wishlist", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val node = wishlistRef.child(pg.id)
+
+            if (isBookmarked) {
+                bookmarkedPgIds.remove(pg.id)
+                holder.bookmarkIcon.setImageResource(R.drawable.ic_bookmark_border)
+                node.removeValue().addOnSuccessListener {
+                    Toast.makeText(context, "Removed from wishlist", Toast.LENGTH_SHORT).show()
+                }
             } else {
-                wishlistRef.child(pg.id).setValue(true)
-                    .addOnSuccessListener {
-                        Toast.makeText(context, "${pg.name} added to wishlist", Toast.LENGTH_SHORT).show()
-                    }
+                bookmarkedPgIds.add(pg.id)
+                holder.bookmarkIcon.setImageResource(R.drawable.ic_bookmark_filled)
+                node.setValue(true).addOnSuccessListener {
+                    Toast.makeText(context, "Added to wishlist", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
 
     override fun getItemCount(): Int = pgList.size
+
+    fun cleanup() {
+        wishlistRef?.let { ref ->
+            wishlistListener?.let { ref.removeEventListener(it) }
+        }
+        wishlistListener = null
+    }
 }

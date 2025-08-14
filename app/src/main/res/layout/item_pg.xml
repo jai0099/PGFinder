@@ -41,7 +41,10 @@
                 android:src="@drawable/ic_bookmark_border"
                 android:contentDescription="Bookmark Icon"
                 android:tint="@color/wish_btn"
+                android:clickable="true"
+                android:focusable="true"
                 tools:ignore="DuplicateIds,UseAppTint" />
+
         </RelativeLayout>
 
         <TextView
