@@ -2,19 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:padding="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FAFAFA"
-    android:padding="12dp">
+    android:background="@color/light_bg">
 
-    <!-- Search Box -->
     <androidx.cardview.widget.CardView
         android:id="@+id/searchCard"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="12dp"
         app:cardCornerRadius="25dp"
-        app:cardElevation="4dp">
+        app:cardElevation="6dp">
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchView"
@@ -22,13 +21,14 @@
             android:layout_height="match_parent"
             android:iconifiedByDefault="false"
             android:queryHint="Search by name, area, or rent"
-            android:background="@android:color/transparent" />
+            android:background="@android:color/transparent"/>
+
     </androidx.cardview.widget.CardView>
 
-    <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="8dp" />
+        android:paddingTop="8dp"/>
+
 </LinearLayout>

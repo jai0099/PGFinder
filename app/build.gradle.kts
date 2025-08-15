@@ -98,6 +98,9 @@ dependencies {
 
     implementation("com.google.firebase:firebase-database-ktx")
 
+    implementation ("com.airbnb.android:lottie:6.4.0")
+
+
 
     // TODO: Add the dependencies for Firebase products you want to use
     // When using the BoM, don't specify versions in Firebase dependencies

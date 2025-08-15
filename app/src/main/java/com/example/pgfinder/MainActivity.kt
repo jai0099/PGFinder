@@ -1,10 +1,10 @@
 package com.example.pgfinder
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -15,6 +15,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Toolbar setup
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.fragment_container, HomeFragment(), "HOME")
             .commit()
 
+        // Bottom nav listener
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_nav)
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -49,11 +51,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Inflate top menu
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.top_nav_menu, menu)
         return true
     }
 
+    // Handle top menu clicks
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_wishlist -> {
@@ -68,16 +72,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // City filter dialog
     private fun showFilterDialog() {
-        val cities = arrayOf("All", "Ahmedabad", "Surat", "Rajkot")
+        val cities = arrayOf("All","Ahmedabad","Surat","Rajkot")
         AlertDialog.Builder(this)
             .setTitle("Select City")
-            .setItems(cities) { _, which ->
-                val selected = if (cities[which] == "All") null else cities[which]
+            .setItems(cities){_,which->
+                val selected = if(cities[which]=="All") null else cities[which]
                 val frag = supportFragmentManager.findFragmentById(R.id.fragment_container)
-                if (frag is HomeFragment) {
-                    frag.applyCityFilter(selected)
-                }
+                if(frag is HomeFragment) frag.applyCityFilter(selected)
             }
             .show()
     }

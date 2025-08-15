@@ -5,50 +5,59 @@
     android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FAFAFA">
+    android:background="@drawable/bg_gradient_appcolors">
 
     <TextView
-        android:text="Login"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="24dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:text="Login"
+        android:textColor="@color/colorPrimary"
+        android:textSize="34sp"
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/emailEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/edittext_appcolors"
+        android:drawablePadding="12dp"
         android:hint="Email"
         android:inputType="textEmailAddress"
-        android:layout_marginBottom="16dp"
-        android:padding="12dp"
-        android:background="@drawable/edittext_bg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:padding="16dp"
+        android:textColor="@color/colorPrimary"
+        android:textColorHint="@color/colorPrimaryVariant" />
 
     <EditText
         android:id="@+id/passwordEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/edittext_appcolors"
+        android:drawablePadding="12dp"
         android:hint="Password"
         android:inputType="textPassword"
-        android:layout_marginBottom="24dp"
-        android:padding="12dp"
-        android:background="@drawable/edittext_bg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:padding="16dp"
+        android:textColor="@color/colorPrimary"
+        android:textColorHint="@color/colorPrimaryVariant" />
 
     <Button
         android:id="@+id/loginButton"
-        android:text="Login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="#6200EE"
-        android:textColor="#FFFFFF"
-        android:padding="12dp"/>
+        android:background="@drawable/button_appcolors"
+        android:elevation="6dp"
+        android:padding="16dp"
+        android:text="Login"
+        android:textColor="@color/colorCard" />
 
     <TextView
         android:id="@+id/goToRegisterText"
-        android:text="Don't have an account? Register"
-        android:layout_marginTop="16dp"
-        android:textColor="#6200EE"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Don't have an account? Register"
+        android:textColor="@color/colorPrimaryVariant" />
+
 </LinearLayout>

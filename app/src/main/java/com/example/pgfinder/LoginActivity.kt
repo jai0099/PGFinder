@@ -6,12 +6,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pgfinder.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var auth: FirebaseAuth
+    private lateinit var usersRef: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,49 +20,50 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         auth = FirebaseAuth.getInstance()
+        usersRef = FirebaseDatabase.getInstance().getReference("Users")
 
         binding.loginButton.setOnClickListener {
             val email = binding.emailEditText.text.toString().trim()
             val password = binding.passwordEditText.text.toString().trim()
 
-            if(email.isEmpty() || password.isEmpty()){
-                Toast.makeText(this,"Please fill all fields",Toast.LENGTH_SHORT).show()
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            auth.signInWithEmailAndPassword(email,password).addOnCompleteListener { task ->
-                if(task.isSuccessful){
-                    val userId = auth.currentUser?.uid ?: return@addOnCompleteListener
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val userId = auth.currentUser?.uid ?: return@addOnCompleteListener
 
-                    // Fetch role from DB for redirect
-                    FirebaseDatabase.getInstance().getReference("Users")
-                        .child(userId)
-                        .child("role")
-                        .get()
-                        .addOnSuccessListener { snapshot ->
-                            val role = snapshot.getValue(String::class.java)
-                            if(role == "admin") {
-                                startActivity(Intent(this, AdminActivity::class.java))
-                            } else {
-                                startActivity(Intent(this, MainActivity::class.java))
-                            }
-                            finish()
-                        }
-                        .addOnFailureListener {
-                            // fallback: normal user
-                            startActivity(Intent(this, MainActivity::class.java))
-                            finish()
-                        }
+                        // Real-time fetch of role
+                        usersRef.child(userId).child("role")
+                            .addListenerForSingleValueEvent(object : ValueEventListener {
+                                override fun onDataChange(snapshot: DataSnapshot) {
+                                    val role = snapshot.getValue(String::class.java)
+                                    if (role != null) {
+                                        Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
+                                        if (role == "admin") {
+                                            startActivity(Intent(this@LoginActivity, AdminActivity::class.java))
+                                        } else {
+                                            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                                        }
+                                        finish()
+                                    } else {
+                                        Toast.makeText(this@LoginActivity, "Role not found", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
 
-                } else {
-                    Toast.makeText(this,"Login failed: ${task.exception?.message}",Toast.LENGTH_LONG).show()
+                                override fun onCancelled(error: DatabaseError) {}
+                            })
+                    } else {
+                        Toast.makeText(this,"Login failed: ${task.exception?.message}",Toast.LENGTH_LONG).show()
+                    }
                 }
-            }
         }
 
         binding.goToRegisterText.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
-            finish()
         }
     }
 }

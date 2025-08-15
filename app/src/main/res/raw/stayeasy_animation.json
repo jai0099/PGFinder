@@ -1,0 +1,108 @@
+{
+  "duration": 15,
+  "scenes": [
+    {
+      "time": [
+        0,
+        3
+      ],
+      "background": "#ffffff",
+      "elements": [
+        {
+          "type": "text",
+          "text": "Welcome to StayEasy!",
+          "position": "center",
+          "font_size": 36,
+          "color": "#333333",
+          "animation": "fade-in"
+        }
+      ]
+    },
+    {
+      "time": [
+        3,
+        6
+      ],
+      "background": "#ffffff",
+      "elements": [
+        {
+          "type": "icon",
+          "name": "bed",
+          "position": "left",
+          "animation": "slide-in-left"
+        },
+        {
+          "type": "text",
+          "text": "Find clean & safe hostels near you",
+          "position": "right",
+          "font_size": 24,
+          "color": "#222222",
+          "animation": "slide-in-right"
+        }
+      ]
+    },
+    {
+      "time": [
+        6,
+        9
+      ],
+      "background": "#ffffff",
+      "elements": [
+        {
+          "type": "icon",
+          "name": "shield-lock",
+          "position": "left",
+          "animation": "slide-in-left"
+        },
+        {
+          "type": "text",
+          "text": "Secure booking & payments",
+          "position": "right",
+          "font_size": 24,
+          "color": "#222222",
+          "animation": "slide-in-right"
+        }
+      ]
+    },
+    {
+      "time": [
+        9,
+        12
+      ],
+      "background": "#ffffff",
+      "elements": [
+        {
+          "type": "icon",
+          "name": "support-agent",
+          "position": "left",
+          "animation": "slide-in-left"
+        },
+        {
+          "type": "text",
+          "text": "24/7 Support + Meals + Daily Cleaning",
+          "position": "right",
+          "font_size": 22,
+          "color": "#222222",
+          "animation": "slide-in-right"
+        }
+      ]
+    },
+    {
+      "time": [
+        12,
+        15
+      ],
+      "background": "#ffffff",
+      "elements": [
+        {
+          "type": "text",
+          "text": "Download the StayEasy App Now!",
+          "position": "center",
+          "font_size": 28,
+          "color": "#0066cc",
+          "animation": "pop"
+        }
+      ]
+    }
+  ]
+}

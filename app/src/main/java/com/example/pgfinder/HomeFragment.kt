@@ -16,16 +16,12 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var pgAdapter: PGAdapter
-    private var pgList = mutableListOf<PGModel>()
-    private var databaseRef: DatabaseReference =
-        FirebaseDatabase.getInstance().getReference("PGs")
-    private var userId: String = ""
+    private val pgList = mutableListOf<PGModel>()
+    private val databaseRef: DatabaseReference = FirebaseDatabase.getInstance().getReference("PGs")
+    private val userId: String = FirebaseAuth.getInstance().currentUser?.uid ?: ""
     private var selectedCity: String? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -33,36 +29,46 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+        // RecyclerView setup
         binding.pgRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         pgAdapter = PGAdapter(requireContext(), pgList, userId)
         binding.pgRecyclerView.adapter = pgAdapter
 
-        loadPGs()
-    }
-
-    private fun loadPGs() {
+        // Real-time listener for PGs
         databaseRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 pgList.clear()
-                for (pgSnapshot in snapshot.children) {
-                    val pg = pgSnapshot.getValue(PGModel::class.java)
-                    if (pg != null) {
-                        if (selectedCity == null || pg.location == selectedCity) {
-                            pgList.add(pg)
-                        }
+                for (pgSnap in snapshot.children) {
+                    val pg = pgSnap.getValue(PGModel::class.java)
+                    if (pg != null && (selectedCity == null || pg.location.equals(selectedCity, true))) {
+                        pgList.add(pg)
                     }
                 }
                 pgAdapter.notifyDataSetChanged()
             }
-
             override fun onCancelled(error: DatabaseError) {}
         })
     }
 
-    // PUBLIC so MainActivity can call it
+    // Public function to apply city filter dynamically
     fun applyCityFilter(city: String?) {
         selectedCity = city
-        loadPGs()
+
+        // Update TextView to show active filter
+        binding.tvActiveFilter.text = "Showing: ${city ?: "All cities"}"
+
+        databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                pgList.clear()
+                for (pgSnap in snapshot.children) {
+                    val pg = pgSnap.getValue(PGModel::class.java)
+                    if (pg != null && (selectedCity == null || pg.location.equals(selectedCity, true))) {
+                        pgList.add(pg)
+                    }
+                }
+                pgAdapter.notifyDataSetChanged()
+            }
+            override fun onCancelled(error: DatabaseError) {}
+        })
     }
 }

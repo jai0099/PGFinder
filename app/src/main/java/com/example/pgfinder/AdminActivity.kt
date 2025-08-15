@@ -19,7 +19,7 @@ class AdminActivity : AppCompatActivity() {
     private val pgList = mutableListOf<AdminPgModel>()
     private lateinit var adapter: AdminPgAdapter
 
-    private var selectedPgId: String? = null // update ke liye
+    private var selectedPgId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

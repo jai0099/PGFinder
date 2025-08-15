@@ -38,12 +38,12 @@
                 android:layout_height="24dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_bookmark_border"
-                android:contentDescription="Bookmark Icon"
-                android:tint="@color/wish_btn"
                 android:clickable="true"
+                android:contentDescription="Bookmark Icon"
                 android:focusable="true"
-                tools:ignore="DuplicateIds,UseAppTint" />
+                android:src="@drawable/ic_bookmark_border"
+                android:tint="@color/wish_btn"
+                tools:ignore="DuplicateIds,UseAppTint,TouchTargetSizeCheck" />
 
         </RelativeLayout>
 
@@ -87,6 +87,9 @@
                 android:layout_marginStart="8dp"
                 android:backgroundTint="@color/btn1"
                 android:textColor="@android:color/white" />
+
         </LinearLayout>
+
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>

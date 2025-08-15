@@ -60,7 +60,7 @@ class PGAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PGViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_pg, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.user_item_pg, parent, false)
 
         // Ensure bookmark is clickable even inside CardView
         view.findViewById<ImageView>(R.id.bookmarkImageView)?.apply {

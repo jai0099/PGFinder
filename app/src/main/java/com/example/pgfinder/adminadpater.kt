@@ -10,7 +10,7 @@ import com.example.pgfinder.model.AdminPgModel
 class AdminPgAdapter(
     private val pgList: MutableList<AdminPgModel>,
     private val onDeleteClick: (AdminPgModel) -> Unit,
-    private val onItemClick: (AdminPgModel) -> Unit // NEW
+    private val onItemClick: (AdminPgModel) -> Unit
 ) : RecyclerView.Adapter<AdminPgAdapter.PgViewHolder>() {
 
     inner class PgViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
