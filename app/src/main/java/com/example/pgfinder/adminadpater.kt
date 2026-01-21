@@ -31,7 +31,7 @@ class AdminPgAdapter(
         val pg = pgList[position]
         holder.name.text = pg.name
         holder.location.text = pg.location
-        holder.price.text = "₹${pg.price}"
+        holder.price.text = "₹$ {pg.price}"
         holder.email.text = pg.email
         holder.call.text = pg.call
 

@@ -6,14 +6,14 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.pgfinder.databinding.ActivityAdminFormBinding
+import com.example.pgfinder.databinding.ActivityAdminBinding
 import com.example.pgfinder.model.AdminPgModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 class AdminActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityAdminFormBinding
+    private lateinit var binding: ActivityAdminBinding
     private lateinit var database: DatabaseReference
     private lateinit var auth: FirebaseAuth
     private val pgList = mutableListOf<AdminPgModel>()
@@ -23,7 +23,7 @@ class AdminActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAdminFormBinding.inflate(layoutInflater)
+        binding = ActivityAdminBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         auth = FirebaseAuth.getInstance()
